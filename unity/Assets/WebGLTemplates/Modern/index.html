@@ -63,11 +63,23 @@
 
       function toggleFullscreen() {
 	        if (isFullscreen()) {
-	          document.exitFullscreen();
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+              document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+              document.msExitFullscreen();
+            }
 	        }
 	        else {
-	          var element = document.body.getElementsByClassName("unity-desktop")[0];
-	          element.requestFullscreen();
+	          var element = document.getElementByID("unity-desktop")[0];
+            if (element.requestFullscreen) {
+              element.requestFullscreen();
+            } else if (element.webkitRequestFullscreen) { /* Safari */
+              element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { /* IE11 */
+              element.msRequestFullscreen();
+            }
 	        }
       }
 
