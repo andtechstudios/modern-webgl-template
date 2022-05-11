@@ -25,7 +25,7 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
-
+      
       function isFullscreen()
       {
         return document.fullscreenElement !== null && document.fullscreenElement
@@ -42,7 +42,7 @@
           document.getElementById("unity-fullscreen-button").style.backgroundImage="url('TemplateData/fullscreen-button-out.png')";
         }
       }
-
+      
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -60,9 +60,9 @@
         }
         updateBannerVisibility();
       }
-
+      
       function toggleFullscreen() {
-	        if (isFullscreen()) {
+         if (isFullscreen()) {
             if (document.exitFullscreen) {
               document.exitFullscreen();
             } else if (document.webkitExitFullscreen) {
@@ -72,9 +72,9 @@
             } else {
               alert("Full screen is not supported by this browser.");
             }
-	        }
-	        else {
-	          var element = document.getElementById("unity-container");
+         }
+         else {
+           var element = document.getElementById("unity-container");
             if (element.requestFullscreen) {
               element.requestFullscreen();
             } else if (element.webkitRequestFullscreen) {
@@ -84,37 +84,37 @@
             } else {
               alert("Full screen is not supported by this browser.");
             }
-	        }
+         }
       }
-
+      
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
       var config = {
         dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
         frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
-#if USE_WASM
+      #if USE_WASM
         codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
-#endif
-#if MEMORY_FILENAME
+      #endif
+      #if MEMORY_FILENAME
         memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
-#endif
-#if SYMBOLS_FILENAME
+      #endif
+      #if SYMBOLS_FILENAME
         symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
-#endif
+      #endif
         streamingAssetsUrl: "StreamingAssets",
         companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
         productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
         productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
         showBanner: unityShowBanner,
       };
-
+      
       // By default Unity keeps WebGL canvas render target size matched with
       // the DOM size of the canvas element (scaled by window.devicePixelRatio)
       // Set this to false if you want to decouple this synchronization from
       // happening inside the engine, and you would instead like to size up
       // the canvas DOM size and WebGL render target sizes yourself.
       //config.matchWebGLToCanvasSize = false;
-
+      
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas
         var meta = document.createElement('meta');
@@ -122,19 +122,19 @@
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
-
+      
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
         //config.devicePixelRatio = 1;
-
+      
         unityShowBanner('WebGL builds are not supported on mobile devices.');
       }
-
-#if BACKGROUND_FILENAME
+      
+      #if BACKGROUND_FILENAME
       canvas.style.background = "url('" + buildUrl + "/{{{ BACKGROUND_FILENAME.replace(/'/g, '%27') }}}') center / cover";
-#endif
+      #endif
       loadingBar.style.display = "block";
-
+      
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
@@ -147,7 +147,7 @@
         });
       };
       document.body.appendChild(script);
-
+      
       document.onfullscreenchange = rebuildFullscreenGUI;
     </script>
   </body>
