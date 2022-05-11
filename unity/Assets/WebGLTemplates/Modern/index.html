@@ -28,9 +28,9 @@
 
       function isFullscreen()
       {
-        return document.fullscreenElement && document.fullscreenElement !== null
-          || document.webkitFullscreenElement && document.webkitFullscreenElement !== null
-          || document.msFullscreenElement && document.msFullscreenElement !== null;
+        return document.fullscreenElement !== null && document.fullscreenElement
+          || document.webkitFullscreenElement !== null && document.webkitFullscreenElement
+          || document.msFullscreenElement !== null && document.msFullscreenElement;
       }
       
       function rebuildFullscreenGUI()
@@ -63,11 +63,27 @@
 
       function toggleFullscreen() {
 	        if (isFullscreen()) {
-	          document.exitFullscreen();
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+              document.msExitFullscreen();
+            } else {
+              alert("Full screen is not supported by this browser.");
+            }
 	        }
 	        else {
-	          var element = document.body.getElementsByClassName("unity-desktop")[0];
-	          element.requestFullscreen();
+	          var element = document.getElementById("unity-container");
+            if (element.requestFullscreen) {
+              element.requestFullscreen();
+            } else if (element.webkitRequestFullscreen) {
+              element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+              element.msRequestFullscreen();
+            } else {
+              alert("Full screen is not supported by this browser.");
+            }
 	        }
       }
 
