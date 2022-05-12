@@ -86,6 +86,10 @@
             }
          }
       }
+
+      function confirmUnload(event) {
+        return confirm("All unsaved progress will be lost.");
+      }
       
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
@@ -142,6 +146,10 @@
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
+
+          // If you want to warn the player before they close the tab,
+          // uncomment the following:
+          //window.onbeforeunload = confirmUnload;
         }).catch((message) => {
           alert(message);
         });
